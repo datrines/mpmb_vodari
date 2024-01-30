@@ -92,7 +92,7 @@ AddSubClass("barbarian","buccaneer",{
 AddSubClass("bard","college of nature",{
 	regExpSearch : /^(?=.*(college|bard|minstrel|troubadour|jongleur))(?=.*nature).*$/i,
 	subname : "College of Nature",
-	source : [["SOV",128]],
+	source : [["SOV",126]],
 	features : {
 		"subclassfeature3.1" : {
 			name : "Bonus Proficiencies",
@@ -101,7 +101,7 @@ AddSubClass("bard","college of nature",{
 			description : desc(["When you join the College of the Nature at 3rd level, you gain proficiency in two skills of your choice selected from Animal Handling, Nature, and Survival.",
 								"In addition, you gain proficiency with the herbalism kit."]),
 			skillstxt : "Two from Animal Handling, Nature and Survival",
-			toolsProfs : [["Herbalism kit", 1]]
+			toolProfs : [["Herbalism kit", 1]]
 		},
 		"subclassfeature3.2" : {
 			name : "Natural Focus cantrip",
@@ -245,3 +245,45 @@ AddSubClass("bard","college of nature",{
 	}
 });
 
+AddSubClass("bard", "college of shanties",{
+	regExpSearch : /^(?=.*(college|bard|minstrel|troubadour|jongleur))(?=.*shanties).*$/i,
+	subname : "College of Shanties",
+	source : [["SOV",128]],
+	features : {
+		"subclassfeature3" : {
+			name : "Bonus Proficiencies",
+			source : [["SOV", 128]],
+			minlevel : 3,
+			description : desc(["You gain proficiency with two skills of your choice. In addition, you gain proficiency with your choice of vehicles (land), vehicles (water), or one type of artisan’s tools."]),
+			skillstxt: "Two skills of your choice",
+			toolProfs: [["vehicles(land), vehicles(water), or one type of artisan's tools", 1]]
+		},
+		"subclassfeature3.1" : {
+			name : "Spellcasting Focus",
+			source : [["SOV", 128]],
+			minlevel : 3,
+			description : desc(["Starting at 3rd level, you can use your singing voice as a spellcasting focus for your bard spells."])
+		},
+		"subclassfeature3.2" : {
+			name : "Song of Work",
+			source : [["SOV", 128]],
+			minlevel : 3,
+			description : desc(["If you sing for at least 1 minute, you can bolster the focus of your allies. When you do so, choose a number of creatures up to your Charisma modifier (minimum 1) within 60 feet that can hear you. These creatures gain advantage on any ability check they make while you maintain concentration on this ability for up to 1 hour. The effect of the song ends early if you are incapacitated or if you voluntarily end it (no action required)."]),
+			recovery: "short rest"
+		},
+		"subclassfeature6" : {
+			name : "Duet",
+			source : [["SOV", 128]],
+			minlevel : 6,
+			description : desc(["Whenever you cast a bard spell of 1st level or higher that has a verbal component, you can expend one use of your Bardic Inspiration to sing a Duet with a creature that is within 60 feet, can hear you, and can speak. As a reaction, that creature can make a weapon attack and add the number rolled on the Bardic Inspiration die to the attack roll."])
+		},
+		"subclassfeature14" : {
+			name : "Song of Camaraderie",
+			source : [["SOV", 128]],
+			minlevel : 14,
+			description : desc(["When you have at least two allies within 5 feet of you, you can use a bonus action and expend one use of your Bardic Inspiration to lead a Song of Camaraderie. When you do so, choose a number of creatures that can hear you within 30 feet, up to a number equal to your Charisma modifier (minimum of one). These creatures each gain temporary hit points equal to the number rolled on the Bardic Inspiration die + your Charisma modifier.",
+								"In addition, creatures of your choice within 5 feet of you gain advantage on their next ability check, attack roll, or saving throw before the start of your next turn."]),
+			action : [["bonus action", "Song of Camaraderie"]]
+		}
+	}
+});
