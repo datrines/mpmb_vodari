@@ -27,6 +27,28 @@ SourceList["SOV"] = {
 	date : "2023/01/23"
 };
 
+ClassList["cleric"].features["Vodari option"] = {
+	name: "Vodari starting equipment" ,
+	description : desc(["You can choose to substitute the following starting equipment:",
+						"a light crossbow and 20 bolts in exchange for a light pistol, 20 lead balls, and powder flask"])
+ };
+ 
+SpellsList["spirit slash"] = {
+	name : "Spirit Slash",
+	classes : ["cleric"],
+	source : [["SOV", 129]],
+	level : 0,
+	school : "Conj",
+	time : "1 a",
+	range : "60 ft",
+	components : "V,S",
+	duration : "1 round",
+	description : "Spirit companion makes melee Atk against creature/5ft of it using your spell atk bns. On hit, 1d6 slash-dmg. Next time the target rolls saving throw subtract 1d4",
+	descriptionShorter: "Spirit companion melee within 5ft; 1d6 slash dmg; next save subtract 1d4",
+	descriptionFull : "When you cast this spell, your spirit companion makes a melee weapon attack against a creature within 5 feet of it using your spell attack bonus. On a hit, it deals 1d6 slashing damage. Whether the attack hits or misses, the next time the target rolls a saving throw before the end of your next turn, it must roll a d4 and subtract the number rolled from the result. At Higher Levels. The spell’s damage increases by 1d6 when you reach 5th level (2d6), 11th level (3d6),and 17th level (4d6)."
+};
+
+
 AddSubClass("barbarian","buccaneer",{
 	regExpSearch : /buccaneer/i,
 	subname : "Path of the Buccaneer",
@@ -284,6 +306,92 @@ AddSubClass("bard", "college of shanties",{
 			description : desc(["When you have at least two allies within 5 feet of you, you can use a bonus action and expend one use of your Bardic Inspiration to lead a Song of Camaraderie. When you do so, choose a number of creatures that can hear you within 30 feet, up to a number equal to your Charisma modifier (minimum of one). These creatures each gain temporary hit points equal to the number rolled on the Bardic Inspiration die + your Charisma modifier.",
 								"In addition, creatures of your choice within 5 feet of you gain advantage on their next ability check, attack roll, or saving throw before the start of your next turn."]),
 			action : [["bonus action", "Song of Camaraderie"]]
+		}
+	}
+});
+
+AddSubClass("cleric", "spirit domain",{
+	regExpSearch : /^(?=.*(cleric|priest|clergy|acolyte))(?=.*spirit).*$/i,
+	subname : "Spirit Domain",
+	source : [["SOV",129]],
+	spellcastingExtra : ["false life", "unseen servant", "augury", "spiritual weapon", "animate dead", "spirit guardians", "confusion", "faithful hound", "animate objects", "dream"],
+	features : {
+		"subclassfeature1" : {
+			name : "Priest of the People",
+			source : [["SOV",129]],
+			minlevel : 1,
+			description : desc(["you gain proficiency with the herbalism kit, and gain the spirit slash cantrip. You also gain proficiency in one of the following skills of your choice: History, Nature, or Survival."]),
+			skillstxt : "One of History, Nature or Survival",
+			toolProfs : [["Herbalism kit", 1]],
+			spellcastingBonus : {
+				name : "Priest of the people",
+				spells : ["spirit slash"],
+				selection : ["spirit slash"],
+				firstCol : 'atwill'
+			}
+		},
+		"subclassfeature1.1" : {
+			name : "Spirit Companion",
+			source : [["SOV",129]],
+			minlevel : 1,
+			// TODO figure out how to add companion rules
+		}
+	}
+	//TODO this subclass is cumbersome -> maybe some other day
+});
+
+AddSubClass("druid", "circle of the deeps",{
+	regExpSearch : /^(?=.*(druid|shaman))(?=.*deeps).*$/i,
+	subname : "Circle of the Deeps",
+	source : [["SOV", 130]],
+	features: {
+		"subclassfeature2" : {
+			name : "Oceanborn",
+			minlevel : 2,
+			description : desc(["You have resistance to cold damage, you have a swimming speed equal to your walking speed, and you can breathe water. If you normally breathe water, you gain the ability to breathe air instead, and you gain a walking speed equal to your swimming",
+								"You can withstand pressure to a depth of 1,000 feet per druid level",
+							    "When using Wild Shape feature, you can transform into the shape of a beast with a swimming speed. Starting at 8th level, you can choose the shape of a beast with a swimming speed and a challenge rating of up to 2.",
+							    "With noises and gestures, you can communicate simple ideas with Small or smaller beasts that have a swimming speed."]),
+			dmgres : ["Cold"],
+			speed : { swim : { spd : "walk", enc: "-10"}}
+		},
+		"subclassfeature2.1" : {
+			name : "Crushing Pressure",
+			description : desc(["When you hit a Large or smaller creature within 120 feet with a spell attack or a creature fails a saving throw against a spell you cast, you can spend your bonus action to knock the target prone, and its speed is halved until the beginning of your next turn."]),
+			minlevel : 2,
+			action : ["bonus action", "knock prone (crushing pressure)"],
+			recovery : "long rest",
+			usages : "Wis mod per ",
+			usagescalc : "event.value = What('Wis Mod');"
+		},
+		"subclassfeature6" : {
+			name : "Pearl-Diving Charm",
+			minlevel : 6,
+			description : desc(["You gain water breathing as an additional prepared spell. Creatures affected by a water breathing spell that you cast also gain resistance to cold damage, a swimming speed equal to their walking speed, and the ability to withstand pressure to a depth of 6,000 feet."]),
+			spellcastingBonus : {
+				name : "Pearl-Diving Charm",
+				spells : ["water breathing"],
+				selection : ["water breathing"],
+				firstCol : 'oncelr'
+			}
+		},
+		"subclassfeature10" : {
+			name : "Where Eyeless Things Dwell",
+			minlevel : 10,
+			description : desc(["you gain blindsight out to a range of 60 feet. Furthermore, you can communicate telepathically with any creature you can see within 120 feet. You don’t need to share a language with the creature for it to understand your telepathic messages, but the creature must be able to speak at least one language."]),
+			vision : [["Blindsight", 60]]
+		},
+		"subclassfeature14" : {
+			name : "Pearl-Diving Charm enhanced",
+			minlevel : 14,
+			description : desc(["Pearl-Diving Charm feature increases depth to 14,000 feet. When you cast water breathing, the spell can’t be dispelled by anyone other than you."])
+		},
+		"subclassfeature14.1" : {
+			name : "Davy Jones' Locker",
+			minlevel : 14,
+			description : desc(["when you knock a creature prone with your Crushing Pressure feature, you can also force the target to roll a Constitution saving throw against your spellcasting DC. On a failed saving throw, the target suffers 5d10 cold damage and is restrained for 1 minute; on a success, it suffers half damage and is not restrained. At the end of each of its turns, the target can attempt a new saving throw; on a success, it is no longer restrained. You can use this feature once, and regain the use of it when you finish a long rest.",
+			"Furthermore, you regain all expended uses of Crushing Pressure when you finish a short or long rest."]),
+			recovery : "long rest"
 		}
 	}
 });
